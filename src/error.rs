@@ -16,9 +16,6 @@ pub struct Error(#[from] ErrorKind);
 // don't expose dependencies' types directly in the public API.
 #[derive(Debug, Error)]
 pub(crate) enum ErrorKind {
-    #[error(transparent)]
-    Iced(#[from] iced::Error),
-
     /// An error that occurred during opening or reading the file.
     #[error(transparent)]
     Io(#[from] io::Error),
@@ -41,13 +38,6 @@ impl Error {
 
 impl From<io::Error> for Error {
     fn from(e: io::Error) -> Self {
-        Self::new(e)
-    }
-}
-
-// iced is public dependency.
-impl From<iced::Error> for Error {
-    fn from(e: iced::Error) -> Self {
         Self::new(e)
     }
 }

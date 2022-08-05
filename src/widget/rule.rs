@@ -8,12 +8,12 @@ pub struct Rule {
 }
 
 #[derive(Debug, Clone, Copy)]
-pub(crate) struct Style(iced::rule::Style);
+pub(crate) struct Style(iced_style::rule::Style);
 
 impl Rule {
     /// Creates a horizontal [`iced::Rule`] for dividing content by the given vertical spacing.
-    pub fn horizontal(&self, spacing: u16) -> iced::Rule<'static> {
-        let mut this = iced::Rule::horizontal(spacing);
+    pub fn horizontal(&self, spacing: u16) -> iced_native::widget::Rule<'static> {
+        let mut this = iced_native::widget::Rule::horizontal(spacing);
         if let Some(style) = self.style {
             this = this.style(style);
         }
@@ -21,8 +21,8 @@ impl Rule {
     }
 
     /// Creates a vertical [`iced::Rule`] for dividing content by the given horizontal spacing.
-    pub fn vertical(&self, spacing: u16) -> iced::Rule<'static> {
-        let mut this = iced::Rule::vertical(spacing);
+    pub fn vertical(&self, spacing: u16) -> iced_native::widget::Rule<'static> {
+        let mut this = iced_native::widget::Rule::vertical(spacing);
         if let Some(style) = self.style {
             this = this.style(style);
         }
@@ -30,8 +30,8 @@ impl Rule {
     }
 }
 
-impl iced::rule::StyleSheet for Style {
-    fn style(&self) -> iced::rule::Style {
+impl iced_style::rule::StyleSheet for Style {
+    fn style(&self) -> iced_style::rule::Style {
         self.0
     }
 }
@@ -58,7 +58,7 @@ mod de {
         AsymmetricPadding(u16, u16),
     }
 
-    impl From<FillMode> for iced::rule::FillMode {
+    impl From<FillMode> for iced_style::rule::FillMode {
         fn from(fill_mode: FillMode) -> Self {
             match fill_mode {
                 FillMode::Full => Self::Full,
@@ -75,11 +75,11 @@ mod de {
             D: Deserializer<'de>,
         {
             let input = Style::deserialize(deserializer)?;
-            let mut this = iced::rule::Style {
+            let mut this = iced_style::rule::Style {
                 color: [0.6, 0.6, 0.6, 0.51].into(),
                 width: 1,
                 radius: 0.0,
-                fill_mode: iced::rule::FillMode::Percent(90.0),
+                fill_mode: iced_style::rule::FillMode::Percent(90.0),
             };
 
             if let Some(color) = input.color {

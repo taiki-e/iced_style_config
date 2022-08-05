@@ -38,11 +38,7 @@ macro_rules! widget_style_sheet_map {
 pub mod button;
 pub mod checkbox;
 pub mod container;
-#[cfg(feature = "image")]
-#[cfg_attr(docsrs, doc(cfg(feature = "image")))]
 pub mod image;
-#[cfg(feature = "image")]
-#[cfg_attr(docsrs, doc(cfg(feature = "image")))]
 pub mod image_viewer;
 pub(crate) mod menu;
 pub mod pick_list;
@@ -53,8 +49,6 @@ pub mod qr_code;
 pub mod radio;
 pub mod scrollable;
 pub mod slider;
-#[cfg(feature = "svg")]
-#[cfg_attr(docsrs, doc(cfg(feature = "svg")))]
 pub mod svg;
 pub mod text;
 pub mod text_input;

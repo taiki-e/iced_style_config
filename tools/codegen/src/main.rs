@@ -50,7 +50,7 @@ fn gen_color_map() -> Result<()> {
     let ast = syn::parse_file(&s)?;
 
     let mut inserts = vec![quote! {
-        map.insert("transparent", iced::Color::TRANSPARENT);
+        map.insert("transparent", iced_native::Color::TRANSPARENT);
     }];
     for i in ast.items {
         if let syn::Item::Const(i) = i {

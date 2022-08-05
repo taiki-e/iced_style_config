@@ -10,7 +10,7 @@ pub(crate) enum Length {
     Units(u16),
 }
 
-impl From<Length> for iced::Length {
+impl From<Length> for iced_native::Length {
     fn from(length: Length) -> Self {
         match length {
             Length::Fill => Self::Fill,
@@ -31,7 +31,7 @@ pub(crate) enum Alignment {
     Fill,
 }
 
-impl From<Alignment> for iced::Alignment {
+impl From<Alignment> for iced_native::Alignment {
     fn from(align: Alignment) -> Self {
         match align {
             Alignment::Start => Self::Start,
@@ -54,7 +54,7 @@ pub(crate) mod alignment {
         Right,
     }
 
-    impl From<Horizontal> for iced::alignment::Horizontal {
+    impl From<Horizontal> for iced_native::alignment::Horizontal {
         fn from(align: Horizontal) -> Self {
             match align {
                 Horizontal::Left => Self::Left,
@@ -73,7 +73,7 @@ pub(crate) mod alignment {
         Bottom,
     }
 
-    impl From<Vertical> for iced::alignment::Vertical {
+    impl From<Vertical> for iced_native::alignment::Vertical {
         fn from(align: Vertical) -> Self {
             match align {
                 Vertical::Top => Self::Top,
@@ -92,7 +92,7 @@ pub(crate) enum Vector {
     Struct { x: f32, y: f32 },
 }
 
-impl From<Vector> for iced::Vector {
+impl From<Vector> for iced_native::Vector {
     fn from(vector: Vector) -> Self {
         match vector {
             Vector::Struct { x, y } | Vector::Tuple(x, y) => Self { x, y },

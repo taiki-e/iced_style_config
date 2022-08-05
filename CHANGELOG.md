@@ -10,6 +10,12 @@ Note: In this file, do not use the hard wrap in the middle of a sentence for com
 
 ## [Unreleased]
 
+- Reduce dependencies by using `iced_*` subcrates instead of facade `iced` crate.
+
+- Remove `image` and `svg` features. They are now enabled by default.
+
+- Remove `From<iced::Error>` implementation on `iced_style_config::Error`.
+
 ## [0.1.0] - 2022-08-05
 
 Initial release

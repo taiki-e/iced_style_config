@@ -14,8 +14,8 @@ pub struct StyleSheet {
 
 impl StyleSheet {
     /// Creates a new [`iced::Svg`] from the given [`iced::svg::Handle`].
-    pub fn new(&self, handle: impl Into<iced::svg::Handle>) -> iced::Svg {
-        let mut this = iced::Svg::new(handle);
+    pub fn new(&self, handle: impl Into<iced_native::svg::Handle>) -> iced_native::widget::Svg {
+        let mut this = iced_native::widget::Svg::new(handle);
         if let Some(width) = self.width {
             this = this.width(width.into());
         }
@@ -27,7 +27,7 @@ impl StyleSheet {
 
     /// Creates a new [`iced::Svg`] that will display the contents of the file at the
     /// provided path.
-    pub fn from_path(&self, path: impl Into<PathBuf>) -> iced::Svg {
-        self.new(iced::svg::Handle::from_path(path))
+    pub fn from_path(&self, path: impl Into<PathBuf>) -> iced_native::widget::svg::Svg {
+        self.new(iced_native::svg::Handle::from_path(path))
     }
 }

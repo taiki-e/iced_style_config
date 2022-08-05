@@ -25,18 +25,18 @@ impl StyleSheet {
     ///   - the current selected value
     ///   - a function that will be called when the [`Radio`] is selected. It
     ///   receives the value of the radio and must produce a `Message`.
-    pub fn new<V, Message>(
+    pub fn new<V, Message, Renderer: iced_native::text::Renderer>(
         &self,
         value: V,
         label: impl Into<String>,
         selected: Option<V>,
         f: impl Fn(V) -> Message + 'static,
-    ) -> iced::Radio<'static, Message>
+    ) -> iced_native::widget::Radio<'static, Message, Renderer>
     where
         V: Eq + Copy,
         Message: Clone,
     {
-        let mut this = iced::Radio::new(value, label, selected, f);
+        let mut this = iced_native::widget::Radio::new(value, label, selected, f);
         if let Some(width) = self.width {
             this = this.width(width.into());
         }
@@ -58,16 +58,16 @@ impl StyleSheet {
 
 #[derive(Debug, Clone, Copy)]
 pub(crate) struct Style {
-    active: iced::radio::Style,
-    hovered: iced::radio::Style,
+    active: iced_style::radio::Style,
+    hovered: iced_style::radio::Style,
 }
 
-impl iced::radio::StyleSheet for Style {
-    fn active(&self) -> iced::radio::Style {
+impl iced_style::radio::StyleSheet for Style {
+    fn active(&self) -> iced_style::radio::Style {
         self.active
     }
 
-    fn hovered(&self) -> iced::radio::Style {
+    fn hovered(&self) -> iced_style::radio::Style {
         self.hovered
     }
 }
@@ -95,7 +95,7 @@ mod de {
     }
 
     impl Inner {
-        fn overwrite(&self, style: &mut iced::radio::Style) {
+        fn overwrite(&self, style: &mut iced_style::radio::Style) {
             if let Some(background) = self.background {
                 style.background = background.into();
             }
@@ -121,17 +121,21 @@ mod de {
         {
             let input = Style::deserialize(deserializer)?;
 
-            let mut active = iced::radio::Style {
-                background: iced::Background::Color(iced::Color::from_rgb(0.95, 0.95, 0.95)),
-                dot_color: iced::Color::from_rgb(0.3, 0.3, 0.3),
+            let mut active = iced_style::radio::Style {
+                background: iced_native::Background::Color(iced_native::Color::from_rgb(
+                    0.95, 0.95, 0.95,
+                )),
+                dot_color: iced_native::Color::from_rgb(0.3, 0.3, 0.3),
                 border_width: 1.0,
-                border_color: iced::Color::from_rgb(0.6, 0.6, 0.6),
+                border_color: iced_native::Color::from_rgb(0.6, 0.6, 0.6),
                 text_color: None,
             };
             input.active.overwrite(&mut active);
 
-            let mut hovered = iced::radio::Style {
-                background: iced::Background::Color(iced::Color::from_rgb(0.90, 0.90, 0.90)),
+            let mut hovered = iced_style::radio::Style {
+                background: iced_native::Background::Color(iced_native::Color::from_rgb(
+                    0.90, 0.90, 0.90,
+                )),
                 ..active
             };
             input.hovered.overwrite(&mut hovered);

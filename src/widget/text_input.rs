@@ -23,17 +23,17 @@ impl StyleSheet {
     /// - a placeholder
     /// - the current value
     /// - a function that produces a message when the [`iced::TextInput`] changes
-    pub fn new<'a, Message>(
+    pub fn new<'a, Message, Renderer: iced_native::text::Renderer>(
         &self,
-        state: &'a mut iced::text_input::State,
+        state: &'a mut iced_native::widget::text_input::State,
         placeholder: &str,
         value: &str,
         on_change: impl Fn(String) -> Message + 'static,
-    ) -> iced::TextInput<'a, Message>
+    ) -> iced_native::widget::TextInput<'a, Message, Renderer>
     where
         Message: Clone,
     {
-        let mut this = iced::TextInput::new(state, placeholder, value, on_change);
+        let mut this = iced_native::widget::TextInput::new(state, placeholder, value, on_change);
         if let Some(width) = self.width {
             this = this.width(width.into());
         }
@@ -52,36 +52,36 @@ impl StyleSheet {
 
 #[derive(Debug, Clone, Copy)]
 pub(crate) struct Style {
-    active: iced::text_input::Style,
-    focused: iced::text_input::Style,
-    hovered: iced::text_input::Style,
-    placeholder_color: iced::Color,
-    value_color: iced::Color,
-    selection_color: iced::Color,
+    active: iced_style::text_input::Style,
+    focused: iced_style::text_input::Style,
+    hovered: iced_style::text_input::Style,
+    placeholder_color: iced_native::Color,
+    value_color: iced_native::Color,
+    selection_color: iced_native::Color,
 }
 
-impl iced::text_input::StyleSheet for Style {
-    fn active(&self) -> iced::text_input::Style {
+impl iced_style::text_input::StyleSheet for Style {
+    fn active(&self) -> iced_style::text_input::Style {
         self.active
     }
 
-    fn focused(&self) -> iced::text_input::Style {
+    fn focused(&self) -> iced_style::text_input::Style {
         self.focused
     }
 
-    fn hovered(&self) -> iced::text_input::Style {
+    fn hovered(&self) -> iced_style::text_input::Style {
         self.hovered
     }
 
-    fn placeholder_color(&self) -> iced::Color {
+    fn placeholder_color(&self) -> iced_native::Color {
         self.placeholder_color
     }
 
-    fn value_color(&self) -> iced::Color {
+    fn value_color(&self) -> iced_native::Color {
         self.value_color
     }
 
-    fn selection_color(&self) -> iced::Color {
+    fn selection_color(&self) -> iced_native::Color {
         self.selection_color
     }
 }
@@ -113,7 +113,7 @@ mod de {
     }
 
     impl Inner {
-        fn overwrite(&self, style: &mut iced::text_input::Style) {
+        fn overwrite(&self, style: &mut iced_style::text_input::Style) {
             if let Some(background) = self.background {
                 style.background = background.into();
             }
@@ -136,16 +136,16 @@ mod de {
         {
             let input = Style::deserialize(deserializer)?;
 
-            let mut active = iced::text_input::Style {
-                background: iced::Background::Color(iced::Color::WHITE),
+            let mut active = iced_style::text_input::Style {
+                background: iced_native::Background::Color(iced_native::Color::WHITE),
                 border_radius: 5.0,
                 border_width: 1.0,
-                border_color: iced::Color::from_rgb(0.7, 0.7, 0.7),
+                border_color: iced_native::Color::from_rgb(0.7, 0.7, 0.7),
             };
             input.active.overwrite(&mut active);
 
-            let mut focused = iced::text_input::Style {
-                border_color: iced::Color::from_rgb(0.5, 0.5, 0.5),
+            let mut focused = iced_style::text_input::Style {
+                border_color: iced_native::Color::from_rgb(0.5, 0.5, 0.5),
                 ..active
             };
             input.focused.overwrite(&mut focused);
@@ -153,12 +153,14 @@ mod de {
             let mut hovered = focused;
             input.hovered.overwrite(&mut hovered);
 
-            let placeholder_color =
-                input.placeholder_color.map_or(iced::Color::from_rgb(0.7, 0.7, 0.7), Into::into);
+            let placeholder_color = input
+                .placeholder_color
+                .map_or(iced_native::Color::from_rgb(0.7, 0.7, 0.7), Into::into);
             let value_color =
-                input.value_color.map_or(iced::Color::from_rgb(0.3, 0.3, 0.3), Into::into);
-            let selection_color =
-                input.selection_color.map_or(iced::Color::from_rgb(0.8, 0.8, 1.0), Into::into);
+                input.value_color.map_or(iced_native::Color::from_rgb(0.3, 0.3, 0.3), Into::into);
+            let selection_color = input
+                .selection_color
+                .map_or(iced_native::Color::from_rgb(0.8, 0.8, 1.0), Into::into);
 
             Ok(Self { active, focused, hovered, placeholder_color, value_color, selection_color })
         }

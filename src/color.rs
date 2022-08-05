@@ -1,9 +1,9 @@
 use crate::import::*;
 
 #[derive(Debug, Clone, Copy)]
-pub(crate) struct Color(iced::Color);
+pub(crate) struct Color(iced_native::Color);
 
-impl From<Color> for iced::Color {
+impl From<Color> for iced_native::Color {
     fn from(color: Color) -> Self {
         color.0
     }
@@ -14,7 +14,7 @@ impl From<Color> for iced::Color {
 #[serde(transparent)]
 pub(crate) struct Background(Color);
 
-impl From<Background> for iced::Background {
+impl From<Background> for iced_native::Background {
     fn from(background: Background) -> Self {
         Self::Color(background.0.into())
     }
@@ -37,20 +37,20 @@ mod map {
     use crate::import::*;
 
     #[derive(Debug, Clone, Default)]
-    pub struct ColorMap(HashMap<String, iced::Color>);
+    pub struct ColorMap(HashMap<String, iced_native::Color>);
 
     impl ColorMap {
         pub(crate) fn with_capacity(capacity: usize) -> Self {
             Self(HashMap::with_capacity(capacity))
         }
 
-        pub(crate) fn insert(&mut self, k: impl Into<String>, v: iced::Color) {
+        pub(crate) fn insert(&mut self, k: impl Into<String>, v: iced_native::Color) {
             let mut k = k.into();
             k.make_ascii_lowercase();
             self.0.insert(k, v);
         }
 
-        pub fn get<S>(&self, k: S) -> Option<&iced::Color>
+        pub fn get<S>(&self, k: S) -> Option<&iced_native::Color>
         where
             S: Borrow<str> + Into<String>,
         {
@@ -75,7 +75,7 @@ mod map {
     where
         S: Borrow<str> + Into<String>,
     {
-        type Output = iced::Color;
+        type Output = iced_native::Color;
 
         #[track_caller]
         fn index(&self, index: S) -> &Self::Output {
@@ -161,26 +161,26 @@ mod de {
             Ok(Self(match Color::deserialize(deserializer)? {
                 Color::Alias(color) => resolve_color_alias(color).map_err(D::Error::custom)?,
                 Color::RgbTuple(r, g, b) | Color::RgbStruct { r, g, b } => {
-                    iced::Color::from_rgb(r, g, b)
+                    iced_native::Color::from_rgb(r, g, b)
                 }
                 Color::RgbaTuple(r, g, b, a) | Color::RgbaStruct { r, g, b, a } => {
-                    iced::Color::from_rgba(r, g, b, a)
+                    iced_native::Color::from_rgba(r, g, b, a)
                 }
                 Color::RgbaStruct2 { rgb, a } => {
                     let rgb = resolve_color_alias(rgb).map_err(D::Error::custom)?;
-                    iced::Color::from_rgba(rgb.r, rgb.g, rgb.b, a)
+                    iced_native::Color::from_rgba(rgb.r, rgb.g, rgb.b, a)
                 }
                 Color::Rgb8Tuple(r, g, b) | Color::Rgb8Struct { r, g, b } => {
-                    iced::Color::from_rgb8(r, g, b)
+                    iced_native::Color::from_rgb8(r, g, b)
                 }
                 Color::Rgba8Tuple(r, g, b, a) | Color::Rgba8Struct { r, g, b, a } => {
-                    iced::Color::from_rgba8(r, g, b, a)
+                    iced_native::Color::from_rgba8(r, g, b, a)
                 }
             }))
         }
     }
 
-    pub(super) fn resolve_color_alias(mut key: String) -> Result<iced::Color, String> {
+    pub(super) fn resolve_color_alias(mut key: String) -> Result<iced_native::Color, String> {
         key.make_ascii_lowercase();
         if let Some(color) = super::DEFAULT_COLOR_ALIASES.get(&*key).copied() {
             return Ok(color);

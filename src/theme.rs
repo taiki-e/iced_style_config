@@ -14,9 +14,7 @@ impl<'de> Deserialize<'de> for Theme {
             this.button.init();
             this.checkbox.init();
             this.container.init();
-            #[cfg(feature = "image")]
             this.image.init();
-            #[cfg(feature = "image")]
             this.image_viewer.init();
             this.pick_list.init();
             this.progress_bar.init();
@@ -25,7 +23,6 @@ impl<'de> Deserialize<'de> for Theme {
             this.radio.init();
             this.scrollable.init();
             this.slider.init();
-            #[cfg(feature = "svg")]
             this.svg.init();
             this.text.init();
             this.text_input.init();
@@ -49,11 +46,9 @@ struct ThemeInner {
     #[serde(default)]
     container: crate::container::Container,
     /// Style sheet for [`iced::Image`].
-    #[cfg(feature = "image")]
     #[serde(default)]
     image: crate::image::Image,
     /// Style sheet for [`iced::image::Viewer`].
-    #[cfg(feature = "image")]
     #[serde(default)]
     image_viewer: crate::image_viewer::Viewer,
     /// Style sheet for [`iced::PickList`].
@@ -79,7 +74,6 @@ struct ThemeInner {
     #[serde(default)]
     slider: crate::slider::Slider,
     /// Style sheet for [`iced::Svg`].
-    #[cfg(feature = "svg")]
     #[serde(default)]
     svg: crate::svg::Svg,
     /// Style sheet for [`iced::Text`].
@@ -149,15 +143,11 @@ impl Theme {
     }
 
     /// Returns style sheet for [`iced::Image`].
-    #[cfg(feature = "image")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "image")))]
     pub fn image(&self) -> &crate::image::Image {
         &self.0.image
     }
 
     /// Returns style sheet for [`iced::image::Viewer`].
-    #[cfg(feature = "image")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "image")))]
     pub fn image_viewer(&self) -> &crate::image_viewer::Viewer {
         &self.0.image_viewer
     }
@@ -201,8 +191,6 @@ impl Theme {
     }
 
     /// Returns style sheet for [`iced::Svg`].
-    #[cfg(feature = "svg")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "svg")))]
     pub fn svg(&self) -> &crate::svg::Svg {
         &self.0.svg
     }

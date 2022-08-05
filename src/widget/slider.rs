@@ -26,16 +26,16 @@ impl StyleSheet {
     ///   `Message`.
     pub fn new<'a, T, Message>(
         &self,
-        state: &'a mut iced::slider::State,
+        state: &'a mut iced_native::widget::slider::State,
         range: RangeInclusive<T>,
         value: T,
         on_change: impl Fn(T) -> Message + 'static,
-    ) -> iced::Slider<'a, T, Message>
+    ) -> iced_native::widget::Slider<'a, T, Message>
     where
         T: Copy + From<u8> + PartialOrd,
         Message: Clone,
     {
-        let mut this = iced::Slider::new(state, range, value, on_change);
+        let mut this = iced_native::widget::Slider::new(state, range, value, on_change);
         if let Some(width) = self.width {
             this = this.width(width.into());
         }
@@ -51,21 +51,21 @@ impl StyleSheet {
 
 #[derive(Debug, Clone, Copy)]
 pub(crate) struct Style {
-    active: iced::slider::Style,
-    hovered: iced::slider::Style,
-    dragging: iced::slider::Style,
+    active: iced_style::slider::Style,
+    hovered: iced_style::slider::Style,
+    dragging: iced_style::slider::Style,
 }
 
-impl iced::slider::StyleSheet for Style {
-    fn active(&self) -> iced::slider::Style {
+impl iced_style::slider::StyleSheet for Style {
+    fn active(&self) -> iced_style::slider::Style {
         self.active
     }
 
-    fn hovered(&self) -> iced::slider::Style {
+    fn hovered(&self) -> iced_style::slider::Style {
         self.hovered
     }
 
-    fn dragging(&self) -> iced::slider::Style {
+    fn dragging(&self) -> iced_style::slider::Style {
         self.dragging
     }
 }
@@ -92,7 +92,7 @@ mod de {
     }
 
     impl Inner {
-        fn overwrite(&self, style: &mut iced::slider::Style) {
+        fn overwrite(&self, style: &mut iced_style::slider::Style) {
             if let Some(rail_colors) = self.rail_colors {
                 style.rail_colors = (rail_colors.0.into(), rail_colors.1.into());
             }
@@ -130,7 +130,7 @@ mod de {
         Rectangle { width: u16, border_radius: f32 },
     }
 
-    impl From<HandleShape> for iced::slider::HandleShape {
+    impl From<HandleShape> for iced_native::widget::slider::HandleShape {
         fn from(shape: HandleShape) -> Self {
             match shape {
                 HandleShape::Circle { radius } => Self::Circle { radius },
@@ -148,29 +148,32 @@ mod de {
         {
             let input = Style::deserialize(deserializer)?;
 
-            let mut active = iced::slider::Style {
-                rail_colors: ([0.6, 0.6, 0.6, 0.5].into(), iced::Color::WHITE),
-                handle: iced::slider::Handle {
-                    shape: iced::slider::HandleShape::Rectangle { width: 8, border_radius: 4.0 },
-                    color: iced::Color::from_rgb(0.95, 0.95, 0.95),
-                    border_color: iced::Color::from_rgb(0.6, 0.6, 0.6),
+            let mut active = iced_style::slider::Style {
+                rail_colors: ([0.6, 0.6, 0.6, 0.5].into(), iced_native::Color::WHITE),
+                handle: iced_native::widget::slider::Handle {
+                    shape: iced_native::widget::slider::HandleShape::Rectangle {
+                        width: 8,
+                        border_radius: 4.0,
+                    },
+                    color: iced_native::Color::from_rgb(0.95, 0.95, 0.95),
+                    border_color: iced_native::Color::from_rgb(0.6, 0.6, 0.6),
                     border_width: 1.0,
                 },
             };
             input.active.overwrite(&mut active);
 
-            let mut hovered = iced::slider::Style {
-                handle: iced::slider::Handle {
-                    color: iced::Color::from_rgb(0.90, 0.90, 0.90),
+            let mut hovered = iced_style::slider::Style {
+                handle: iced_native::widget::slider::Handle {
+                    color: iced_native::Color::from_rgb(0.90, 0.90, 0.90),
                     ..active.handle
                 },
                 ..active
             };
             input.hovered.overwrite(&mut hovered);
 
-            let mut dragging = iced::slider::Style {
-                handle: iced::slider::Handle {
-                    color: iced::Color::from_rgb(0.85, 0.85, 0.85),
+            let mut dragging = iced_style::slider::Style {
+                handle: iced_native::widget::slider::Handle {
+                    color: iced_native::Color::from_rgb(0.85, 0.85, 0.85),
                     ..active.handle
                 },
                 ..active

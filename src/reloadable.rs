@@ -102,13 +102,13 @@ impl ReloadableTheme {
         Ok(())
     }
 
-    pub fn subscription(&self) -> iced::Subscription<ReloadEvent> {
+    pub fn subscription(&self) -> iced_native::Subscription<ReloadEvent> {
         let recipe = match &self.0 {
             #[cfg(not(target_family = "wasm"))]
             Inner::Reloadable { receiver, .. } => Recipe { receiver: Some(receiver.clone()) },
             Inner::Static { .. } => Recipe { receiver: None },
         };
-        iced::Subscription::from_recipe(recipe)
+        iced_native::Subscription::from_recipe(recipe)
     }
 
     pub fn reload(&mut self) -> Result<(), Error> {

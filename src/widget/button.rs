@@ -18,15 +18,15 @@ pub struct StyleSheet {
 impl StyleSheet {
     /// Creates a new [`iced::Button`] with some local [`iced::button::State`] and the given
     /// content.
-    pub fn new<'a, Message>(
+    pub fn new<'a, Message, Renderer: iced_native::Renderer>(
         &self,
-        state: &'a mut iced::button::State,
-        content: impl Into<iced::Element<'a, Message>>,
-    ) -> iced::Button<'a, Message>
+        state: &'a mut iced_native::widget::button::State,
+        content: impl Into<iced_native::Element<'a, Message, Renderer>>,
+    ) -> iced_native::widget::Button<'a, Message, Renderer>
     where
         Message: Clone,
     {
-        let mut this = iced::Button::new(state, content);
+        let mut this = iced_native::widget::Button::new(state, content);
         if let Some(width) = self.width {
             this = this.width(width.into());
         }
@@ -45,26 +45,26 @@ impl StyleSheet {
 
 #[derive(Debug, Clone, Copy)]
 pub(crate) struct Style {
-    active: iced::button::Style,
-    hovered: iced::button::Style,
-    pressed: iced::button::Style,
-    disabled: iced::button::Style,
+    active: iced_style::button::Style,
+    hovered: iced_style::button::Style,
+    pressed: iced_style::button::Style,
+    disabled: iced_style::button::Style,
 }
 
-impl iced::button::StyleSheet for Style {
-    fn active(&self) -> iced::button::Style {
+impl iced_style::button::StyleSheet for Style {
+    fn active(&self) -> iced_style::button::Style {
         self.active
     }
 
-    fn hovered(&self) -> iced::button::Style {
+    fn hovered(&self) -> iced_style::button::Style {
         self.hovered
     }
 
-    fn pressed(&self) -> iced::button::Style {
+    fn pressed(&self) -> iced_style::button::Style {
         self.pressed
     }
 
-    fn disabled(&self) -> iced::button::Style {
+    fn disabled(&self) -> iced_style::button::Style {
         self.disabled
     }
 }
@@ -97,7 +97,7 @@ mod de {
     }
 
     impl Inner {
-        fn overwrite(&self, style: &mut iced::button::Style) {
+        fn overwrite(&self, style: &mut iced_style::button::Style) {
             if let Some(shadow_offset) = self.shadow_offset {
                 style.shadow_offset = shadow_offset.into();
             }
@@ -126,27 +126,35 @@ mod de {
         {
             let input = Style::deserialize(deserializer)?;
 
-            let mut active = iced::button::Style::default();
+            let mut active = iced_style::button::Style::default();
             input.active.overwrite(&mut active);
 
-            let mut hovered = iced::button::Style {
-                shadow_offset: active.shadow_offset + iced::Vector::new(0.0, 1.0),
+            let mut hovered = iced_style::button::Style {
+                shadow_offset: active.shadow_offset + iced_native::Vector::new(0.0, 1.0),
                 ..active
             };
             input.hovered.overwrite(&mut hovered);
 
-            let mut pressed =
-                iced::button::Style { shadow_offset: iced::Vector::default(), ..active };
+            let mut pressed = iced_style::button::Style {
+                shadow_offset: iced_native::Vector::default(),
+                ..active
+            };
             input.pressed.overwrite(&mut pressed);
 
-            let mut disabled = iced::button::Style {
-                shadow_offset: iced::Vector::default(),
+            let mut disabled = iced_style::button::Style {
+                shadow_offset: iced_native::Vector::default(),
                 background: active.background.map(|background| match background {
-                    iced::Background::Color(color) => {
-                        iced::Background::Color(iced::Color { a: color.a * 0.5, ..color })
+                    iced_native::Background::Color(color) => {
+                        iced_native::Background::Color(iced_native::Color {
+                            a: color.a * 0.5,
+                            ..color
+                        })
                     }
                 }),
-                text_color: iced::Color { a: active.text_color.a * 0.5, ..active.text_color },
+                text_color: iced_native::Color {
+                    a: active.text_color.a * 0.5,
+                    ..active.text_color
+                },
                 ..active
             };
             input.disabled.overwrite(&mut disabled);

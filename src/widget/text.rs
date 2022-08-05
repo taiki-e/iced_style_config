@@ -16,8 +16,11 @@ pub struct StyleSheet {
 
 impl StyleSheet {
     /// Create a new fragment of [`iced::Text`] with the given contents.
-    pub fn new(&self, label: impl Into<String>) -> iced::Text {
-        let mut this = iced::Text::new(label);
+    pub fn new<Renderer: iced_native::text::Renderer>(
+        &self,
+        label: impl Into<String>,
+    ) -> iced_native::widget::Text<Renderer> {
+        let mut this = iced_native::widget::Text::new(label);
         if let Some(size) = self.size {
             this = this.size(size);
         }

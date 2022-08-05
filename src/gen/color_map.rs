@@ -7,7 +7,7 @@ use crate::*;
 pub(crate) static DEFAULT_COLOR_ALIASES: once_cell::sync::Lazy<color::ColorMap> = once_cell::sync::Lazy::new(||
 {
     let mut map = color::ColorMap::with_capacity(157usize);
-    map.insert("transparent", iced::Color::TRANSPARENT);
+    map.insert("transparent", iced_native::Color::TRANSPARENT);
     map.insert("primary", colors::PRIMARY);
     map.insert("secondary", colors::SECONDARY);
     map.insert("success", colors::SUCCESS);

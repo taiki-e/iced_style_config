@@ -13,12 +13,15 @@ pub struct StyleSheet {
 
 impl StyleSheet {
     /// Creates a new [`iced::QRCode`] with the provided [`iced::qr_code::State`].
-    pub fn new<'a>(&self, state: &'a mut iced::qr_code::State) -> iced::QRCode<'a> {
-        let mut this = iced::QRCode::new(state);
+    pub fn new<'a>(
+        &self,
+        state: &'a mut iced_graphics::qr_code::State,
+    ) -> iced_graphics::QRCode<'a> {
+        let mut this = iced_graphics::QRCode::new(state);
         if self.dark.is_some() || self.light.is_some() {
             this = this.color(
-                self.dark.map_or(iced::Color::BLACK, Into::into),
-                self.light.map_or(iced::Color::WHITE, Into::into),
+                self.dark.map_or(iced_native::Color::BLACK, Into::into),
+                self.light.map_or(iced_native::Color::WHITE, Into::into),
             );
         }
         if let Some(cell_size) = self.cell_size {

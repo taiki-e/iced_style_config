@@ -24,11 +24,11 @@ pub struct StyleSheet {
 
 impl StyleSheet {
     /// Creates a new [`iced::Scrollable`] with the given [`iced::scrollable::State`].
-    pub fn new<'a, Message>(
+    pub fn new<'a, Message, Renderer: iced_native::Renderer>(
         &self,
-        state: &'a mut iced::scrollable::State,
-    ) -> iced::Scrollable<'a, Message> {
-        let mut this = iced::Scrollable::new(state);
+        state: &'a mut iced_native::widget::scrollable::State,
+    ) -> iced_native::widget::Scrollable<'a, Message, Renderer> {
+        let mut this = iced_native::widget::Scrollable::new(state);
         if let Some(spacing) = self.spacing {
             this = this.spacing(spacing);
         }
@@ -68,21 +68,21 @@ impl StyleSheet {
 
 #[derive(Debug, Clone, Copy)]
 pub(crate) struct Style {
-    active: iced::scrollable::Scrollbar,
-    hovered: iced::scrollable::Scrollbar,
-    dragging: iced::scrollable::Scrollbar,
+    active: iced_style::scrollable::Scrollbar,
+    hovered: iced_style::scrollable::Scrollbar,
+    dragging: iced_style::scrollable::Scrollbar,
 }
 
-impl iced::scrollable::StyleSheet for Style {
-    fn active(&self) -> iced::scrollable::Scrollbar {
+impl iced_style::scrollable::StyleSheet for Style {
+    fn active(&self) -> iced_style::scrollable::Scrollbar {
         self.active
     }
 
-    fn hovered(&self) -> iced::scrollable::Scrollbar {
+    fn hovered(&self) -> iced_style::scrollable::Scrollbar {
         self.hovered
     }
 
-    fn dragging(&self) -> iced::scrollable::Scrollbar {
+    fn dragging(&self) -> iced_style::scrollable::Scrollbar {
         self.dragging
     }
 }
@@ -112,7 +112,7 @@ mod de {
     }
 
     impl Scrollbar {
-        fn overwrite(&self, scrollbar: &mut iced::scrollable::Scrollbar) {
+        fn overwrite(&self, scrollbar: &mut iced_style::scrollable::Scrollbar) {
             if let Some(background) = self.background {
                 scrollbar.background = Some(background.into());
             }
@@ -158,22 +158,22 @@ mod de {
         {
             let input = Style::deserialize(deserializer)?;
 
-            let mut active = iced::scrollable::Scrollbar {
+            let mut active = iced_style::scrollable::Scrollbar {
                 background: None,
                 border_radius: 5.0,
                 border_width: 0.0,
-                border_color: iced::Color::TRANSPARENT,
-                scroller: iced::scrollable::Scroller {
+                border_color: iced_native::Color::TRANSPARENT,
+                scroller: iced_style::scrollable::Scroller {
                     color: [0.0, 0.0, 0.0, 0.7].into(),
                     border_radius: 5.0,
                     border_width: 0.0,
-                    border_color: iced::Color::TRANSPARENT,
+                    border_color: iced_native::Color::TRANSPARENT,
                 },
             };
             input.active.overwrite(&mut active);
 
-            let mut hovered = iced::scrollable::Scrollbar {
-                background: Some(iced::Background::Color([0.0, 0.0, 0.0, 0.3].into())),
+            let mut hovered = iced_style::scrollable::Scrollbar {
+                background: Some(iced_native::Background::Color([0.0, 0.0, 0.0, 0.3].into())),
                 ..active
             };
             input.hovered.overwrite(&mut hovered);

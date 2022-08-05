@@ -1,7 +1,7 @@
 #[derive(Debug, Clone, Copy, Default)]
-pub(crate) struct Style(iced::pick_list::Menu);
+pub(crate) struct Style(iced_style::menu::Style);
 
-impl From<Style> for iced::pick_list::Menu {
+impl From<Style> for iced_style::menu::Style {
     fn from(style: Style) -> Self {
         style.0
     }

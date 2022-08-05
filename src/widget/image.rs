@@ -12,8 +12,11 @@ pub struct StyleSheet {
 
 impl StyleSheet {
     /// Creates a new [`iced::Image`] with the given [`iced::image::Handle`].
-    pub fn new(&self, handle: impl Into<iced::image::Handle>) -> iced::Image {
-        let mut this = iced::Image::new(handle);
+    pub fn new(
+        &self,
+        handle: impl Into<iced_native::image::Handle>,
+    ) -> iced_native::widget::image::Image<iced_native::image::Handle> {
+        let mut this = iced_native::widget::image::Image::new(handle);
         if let Some(width) = self.width {
             this = this.width(width.into());
         }

@@ -7,7 +7,7 @@ publish = false
 [dependencies]
 anyhow = "1"
 fs-err = "2"
-iced_style_config = { path = "../..", features = ["schema", "image", "svg", "canvas", "qr_code"] }
+iced_style_config = { path = "../..", features = ["schema", "canvas", "qr_code"] }
 prettyplease = "0.1.11"
 proc-macro2 = "1"
 quote = "1"

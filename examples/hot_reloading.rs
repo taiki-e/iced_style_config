@@ -6,7 +6,7 @@ use iced::{
 };
 use iced_style_config::ReloadableTheme;
 
-fn main() -> iced_style_config::Result<()> {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     Styling::run(Settings {
         flags: Some(theme(Some("examples/dark_theme.toml"))?),
         ..Default::default()
