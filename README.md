@@ -15,7 +15,7 @@ Add this to your `Cargo.toml`:
 ```toml
 [dependencies]
 iced = "0.4"
-iced_style_config = "0.1"
+iced_style_config = "0.2"
 ```
 
 To disable hot reloading support:
@@ -23,7 +23,7 @@ To disable hot reloading support:
 ```toml
 [dependencies]
 iced = "0.4"
-iced_style_config = { version = "0.1", default-features = false }
+iced_style_config = { version = "0.2", default-features = false }
 ```
 
 *Compiler support: requires the latest stable rustc*
