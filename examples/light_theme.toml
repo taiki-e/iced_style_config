@@ -1,0 +1,20 @@
+# Same as https://github.com/hecrj/iced/blob/8d882d787e6b7fd7c2435f42f82933e2ed904edf/examples/styling/src/main.rs#L243-L267.
+
+[button.default]
+active.background = [0.11, 0.42, 0.87]
+active.border_radius = 12.0
+active.shadow_offset = [1.0, 1.0]
+active.text_color = ["0xEE", "0xEE", "0xEE"]
+hovered.text_color = "WHITE"
+hovered.shadow_offset = [1.0, 2.0]
+padding = 10
+
+[checkbox.default]
+width = "fill"
+
+[container.default]
+width = "fill"
+height = "fill"
+align_x = "center"
+align_y = "center"
+#background = ["0x36", "0x39", "0x3F"]

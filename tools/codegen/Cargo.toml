@@ -1,0 +1,16 @@
+[package]
+name = "iced_style_config-internal-codegen"
+version = "0.0.0"
+edition = "2018"
+publish = false
+
+[dependencies]
+anyhow = "1"
+fs-err = "2"
+iced_style_config = { path = "../..", features = ["schema", "image", "svg", "canvas", "qr_code"] }
+prettyplease = "0.1.11"
+proc-macro2 = "1"
+quote = "1"
+schemars = "0.8"
+serde_json = "1"
+syn = { version = "1", features = ["full"] }

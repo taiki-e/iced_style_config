@@ -1,0 +1,582 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Theme",
+  "type": "object",
+  "required": [
+    "color"
+  ],
+  "properties": {
+    "button": {
+      "description": "Style sheet for [`iced::Button`].",
+      "default": {},
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/StyleSheet"
+      }
+    },
+    "checkbox": {
+      "description": "Style sheet for [`iced::Checkbox`].",
+      "default": {},
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/StyleSheet"
+      }
+    },
+    "color": {
+      "description": "Colors defined in the style sheet.",
+      "allOf": [
+        {
+          "$ref": "#/definitions/ColorAliases"
+        }
+      ]
+    },
+    "container": {
+      "description": "Style sheet for [`iced::Container`].",
+      "default": {},
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/StyleSheet"
+      }
+    },
+    "image": {
+      "description": "Style sheet for [`iced::Image`].",
+      "default": {},
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/StyleSheet"
+      }
+    },
+    "image_viewer": {
+      "description": "Style sheet for [`iced::image::Viewer`].",
+      "default": {},
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/StyleSheet"
+      }
+    },
+    "pick_list": {
+      "description": "Style sheet for [`iced::PickList`].",
+      "default": {},
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/StyleSheet"
+      }
+    },
+    "progress_bar": {
+      "description": "Style sheet for [`iced::ProgressBar`].",
+      "default": {},
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/StyleSheet"
+      }
+    },
+    "qr_code": {
+      "description": "Style sheet for [`iced::QRCode`].",
+      "default": {},
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/StyleSheet"
+      }
+    },
+    "radio": {
+      "description": "Style sheet for [`iced::Radio`].",
+      "default": {},
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/StyleSheet"
+      }
+    },
+    "scrollable": {
+      "description": "Style sheet for [`iced::Scrollable`].",
+      "default": {},
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/StyleSheet"
+      }
+    },
+    "slider": {
+      "description": "Style sheet for [`iced::Slider`].",
+      "default": {},
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/StyleSheet"
+      }
+    },
+    "svg": {
+      "description": "Style sheet for [`iced::Svg`].",
+      "default": {},
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/StyleSheet"
+      }
+    },
+    "text": {
+      "description": "Style sheet for [`iced::Text`].",
+      "default": {},
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/StyleSheet"
+      }
+    },
+    "text_input": {
+      "description": "Style sheets for [`iced::TextInput`].",
+      "default": {},
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/StyleSheet"
+      }
+    }
+  },
+  "definitions": {
+    "Color": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": [
+            {
+              "type": "number",
+              "format": "float"
+            },
+            {
+              "type": "number",
+              "format": "float"
+            },
+            {
+              "type": "number",
+              "format": "float"
+            }
+          ],
+          "maxItems": 3,
+          "minItems": 3
+        },
+        {
+          "type": "object",
+          "required": [
+            "b",
+            "g",
+            "r"
+          ],
+          "properties": {
+            "b": {
+              "type": "number",
+              "format": "float"
+            },
+            "g": {
+              "type": "number",
+              "format": "float"
+            },
+            "r": {
+              "type": "number",
+              "format": "float"
+            }
+          }
+        },
+        {
+          "type": "array",
+          "items": [
+            {
+              "type": "number",
+              "format": "float"
+            },
+            {
+              "type": "number",
+              "format": "float"
+            },
+            {
+              "type": "number",
+              "format": "float"
+            },
+            {
+              "type": "number",
+              "format": "float"
+            }
+          ],
+          "maxItems": 4,
+          "minItems": 4
+        },
+        {
+          "type": "object",
+          "required": [
+            "a",
+            "b",
+            "g",
+            "r"
+          ],
+          "properties": {
+            "a": {
+              "type": "number",
+              "format": "float"
+            },
+            "b": {
+              "type": "number",
+              "format": "float"
+            },
+            "g": {
+              "type": "number",
+              "format": "float"
+            },
+            "r": {
+              "type": "number",
+              "format": "float"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "a",
+            "rgb"
+          ],
+          "properties": {
+            "a": {
+              "type": "number",
+              "format": "float"
+            },
+            "rgb": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "type": "array",
+          "items": [
+            {
+              "type": "integer",
+              "format": "uint8",
+              "minimum": 0.0
+            },
+            {
+              "type": "integer",
+              "format": "uint8",
+              "minimum": 0.0
+            },
+            {
+              "type": "integer",
+              "format": "uint8",
+              "minimum": 0.0
+            }
+          ],
+          "maxItems": 3,
+          "minItems": 3
+        },
+        {
+          "type": "object",
+          "required": [
+            "b",
+            "g",
+            "r"
+          ],
+          "properties": {
+            "b": {
+              "type": "integer",
+              "format": "uint8",
+              "minimum": 0.0
+            },
+            "g": {
+              "type": "integer",
+              "format": "uint8",
+              "minimum": 0.0
+            },
+            "r": {
+              "type": "integer",
+              "format": "uint8",
+              "minimum": 0.0
+            }
+          }
+        },
+        {
+          "type": "array",
+          "items": [
+            {
+              "type": "integer",
+              "format": "uint8",
+              "minimum": 0.0
+            },
+            {
+              "type": "integer",
+              "format": "uint8",
+              "minimum": 0.0
+            },
+            {
+              "type": "integer",
+              "format": "uint8",
+              "minimum": 0.0
+            },
+            {
+              "type": "number",
+              "format": "float"
+            }
+          ],
+          "maxItems": 4,
+          "minItems": 4
+        },
+        {
+          "type": "object",
+          "required": [
+            "a",
+            "b",
+            "g",
+            "r"
+          ],
+          "properties": {
+            "a": {
+              "type": "number",
+              "format": "float"
+            },
+            "b": {
+              "type": "integer",
+              "format": "uint8",
+              "minimum": 0.0
+            },
+            "g": {
+              "type": "integer",
+              "format": "uint8",
+              "minimum": 0.0
+            },
+            "r": {
+              "type": "integer",
+              "format": "uint8",
+              "minimum": 0.0
+            }
+          }
+        }
+      ]
+    },
+    "ColorAliases": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/Color"
+      }
+    },
+    "Inner": {
+      "type": "object",
+      "properties": {
+        "background": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Color"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "border_color": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Color"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "border_radius": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "float"
+        },
+        "border_width": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "float"
+        },
+        "shadow_offset": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Vector"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "text_color": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Color"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "Length": {
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "fill",
+            "shrink"
+          ]
+        },
+        {
+          "type": "object",
+          "required": [
+            "fill_portion"
+          ],
+          "properties": {
+            "fill_portion": {
+              "type": "integer",
+              "format": "uint16",
+              "minimum": 0.0
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "units"
+          ],
+          "properties": {
+            "units": {
+              "type": "integer",
+              "format": "uint16",
+              "minimum": 0.0
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "StyleSheet": {
+      "type": "object",
+      "properties": {
+        "active": {
+          "default": {
+            "background": null,
+            "border_color": null,
+            "border_radius": null,
+            "border_width": null,
+            "shadow_offset": null,
+            "text_color": null
+          },
+          "allOf": [
+            {
+              "$ref": "#/definitions/Inner"
+            }
+          ]
+        },
+        "disabled": {
+          "default": {
+            "background": null,
+            "border_color": null,
+            "border_radius": null,
+            "border_width": null,
+            "shadow_offset": null,
+            "text_color": null
+          },
+          "allOf": [
+            {
+              "$ref": "#/definitions/Inner"
+            }
+          ]
+        },
+        "height": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Length"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "hovered": {
+          "default": {
+            "background": null,
+            "border_color": null,
+            "border_radius": null,
+            "border_width": null,
+            "shadow_offset": null,
+            "text_color": null
+          },
+          "allOf": [
+            {
+              "$ref": "#/definitions/Inner"
+            }
+          ]
+        },
+        "padding": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint16",
+          "minimum": 0.0
+        },
+        "pressed": {
+          "default": {
+            "background": null,
+            "border_color": null,
+            "border_radius": null,
+            "border_width": null,
+            "shadow_offset": null,
+            "text_color": null
+          },
+          "allOf": [
+            {
+              "$ref": "#/definitions/Inner"
+            }
+          ]
+        },
+        "width": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Length"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "Vector": {
+      "anyOf": [
+        {
+          "type": "array",
+          "items": [
+            {
+              "type": "number",
+              "format": "float"
+            },
+            {
+              "type": "number",
+              "format": "float"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2
+        },
+        {
+          "type": "object",
+          "required": [
+            "x",
+            "y"
+          ],
+          "properties": {
+            "x": {
+              "type": "number",
+              "format": "float"
+            },
+            "y": {
+              "type": "number",
+              "format": "float"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
