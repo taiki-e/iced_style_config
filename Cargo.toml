@@ -1,6 +1,6 @@
 [package]
 name = "iced_style_config"
-version = "0.2.0" #publish:version
+version = "0.2.0"
 edition = "2021"
 license = "Apache-2.0 OR MIT"
 repository = "https://github.com/taiki-e/iced_style_config"
