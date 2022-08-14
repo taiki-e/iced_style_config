@@ -10,6 +10,8 @@ Note: In this file, do not use the hard wrap in the middle of a sentence for com
 
 ## [Unreleased]
 
+- Update `notify` to 5.0.0-pre.16.
+
 ## [0.2.0] - 2022-08-05
 
 - Reduce dependencies by using `iced_*` subcrates instead of facade `iced` crate.
