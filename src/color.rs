@@ -20,7 +20,6 @@ impl From<Background> for iced_native::Background {
     }
 }
 
-#[rustfmt::skip]
 #[path = "gen/color_map.rs"]
 mod default_color_aliases;
 
