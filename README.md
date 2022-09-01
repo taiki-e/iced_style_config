@@ -26,39 +26,15 @@ iced = "0.4"
 iced_style_config = { version = "0.2", default-features = false }
 ```
 
+Note: Hot reloading on WebAssembly is not yet supported.
+
 *Compiler support: requires the latest stable rustc*
 
 ## Examples
 
-On native targets:
-
 ```sh
 cargo run --example hot_reloading
 ```
-
-On WebAssembly:
-
-```sh
-cargo build --target wasm32-unknown-unknown --example hot_reloading
-wasm-bindgen target/wasm32-unknown-unknown/debug/examples/hot_reloading.wasm --out-dir hot_reloading --web
-echo '<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tour - Iced</title>
-  </head>
-  <body>
-    <script type="module">
-      import init from "./hot_reloading/hot_reloading.js";
-      init("./hot_reloading/hot_reloading_bg.wasm");
-    </script>
-  </body>
-</html>' > index.html
-cargo run --example server
-```
-
-Note: Hot reloading on WebAssembly is not yet supported.
 
 ## Schemas for configuration files
 
