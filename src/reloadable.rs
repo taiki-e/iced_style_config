@@ -50,7 +50,7 @@ impl ReloadableTheme {
     #[cfg_attr(docsrs, doc(cfg(not(target_arch = "wasm32"))))] // rustdoc displays "non-WebAssembly" for `not(wasm32)` not `not(wasm)`.
     pub fn from_file(path: impl AsRef<Path>) -> Result<Self, Error> {
         let path = path.as_ref();
-        let theme = Theme::from_file(&path)?;
+        let theme = Theme::from_file(path)?;
 
         let (sender, receiver) = watch::channel(Ok(notify::Event::new(notify::EventKind::Other)));
 
@@ -86,7 +86,7 @@ impl ReloadableTheme {
         match &mut self.0 {
             Inner::Reloadable { theme: old_theme, path: old_path, watcher, .. } => {
                 if new_path != *old_path {
-                    let new_theme = Theme::from_file(&new_path)?;
+                    let new_theme = Theme::from_file(new_path)?;
 
                     debug!("start watching {}", new_path.display());
                     watcher.watch(new_path, RecursiveMode::NonRecursive).map_err(Error::new)?;
