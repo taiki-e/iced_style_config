@@ -20,11 +20,14 @@ impl StyleSheet {
     /// It expects:
     ///   - an inclusive range of possible values
     ///   - the current value of the [`iced::ProgressBar`]
-    pub fn new(
+    pub fn new<Renderer: iced_native::Renderer>(
         &self,
         range: RangeInclusive<f32>,
         value: f32,
-    ) -> iced_native::widget::ProgressBar<'static> {
+    ) -> iced_native::widget::ProgressBar<Renderer>
+    where
+        Renderer::Theme: iced_style::progress_bar::StyleSheet,
+    {
         let mut this = iced_native::widget::ProgressBar::new(range, value);
         if let Some(width) = self.width {
             this = this.width(width.into());
@@ -40,10 +43,10 @@ impl StyleSheet {
 }
 
 #[derive(Debug, Clone, Copy)]
-pub(crate) struct Style(iced_style::progress_bar::Style);
+pub(crate) struct Style(iced_style::progress_bar::Appearance);
 
 impl iced_style::progress_bar::StyleSheet for Style {
-    fn style(&self) -> iced_style::progress_bar::Style {
+    fn appearance(&self) -> iced_style::progress_bar::Appearance {
         self.0
     }
 }
@@ -65,7 +68,7 @@ mod de {
             D: Deserializer<'de>,
         {
             let input = Style::deserialize(deserializer)?;
-            let mut this = iced_style::progress_bar::Style {
+            let mut this = iced_style::progress_bar::Appearance {
                 background: iced_native::Background::Color(iced_native::Color::from_rgb(
                     0.6, 0.6, 0.6,
                 )),

@@ -19,10 +19,9 @@ impl StyleSheet {
     /// [`iced::image::viewer::State`] and [`iced::image::Handle`].
     pub fn new<'a>(
         &self,
-        state: &'a mut iced_native::widget::image::viewer::State,
         handle: impl Into<iced_native::image::Handle>,
-    ) -> iced_native::widget::image::Viewer<'a, iced_native::image::Handle> {
-        let mut this = iced_native::widget::image::Viewer::new(state, handle.into());
+    ) -> iced_native::widget::image::Viewer<iced_native::image::Handle> {
+        let mut this = iced_native::widget::image::Viewer::new(handle.into());
         if let Some(padding) = self.padding {
             this = this.padding(padding);
         }

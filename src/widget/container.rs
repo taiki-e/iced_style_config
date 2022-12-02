@@ -24,7 +24,10 @@ impl StyleSheet {
     pub fn new<'a, Message, Renderer: iced_native::Renderer>(
         &self,
         content: impl Into<iced_native::Element<'a, Message, Renderer>>,
-    ) -> iced_native::widget::Container<'a, Message, Renderer> {
+    ) -> iced_native::widget::Container<'a, Message, Renderer>
+    where
+        Renderer::Theme: iced_style::container::StyleSheet,
+    {
         let mut this = iced_native::widget::Container::new(content);
         if let Some(padding) = self.padding {
             this = this.padding(padding);
@@ -55,10 +58,10 @@ impl StyleSheet {
 }
 
 #[derive(Debug, Clone, Copy)]
-pub(crate) struct Style(iced_style::container::Style);
+pub(crate) struct Style(iced_style::container::Appearance);
 
 impl iced_style::container::StyleSheet for Style {
-    fn style(&self) -> iced_style::container::Style {
+    fn appearance(&self) -> iced_style::container::Appearance {
         self.0
     }
 }
@@ -82,7 +85,7 @@ mod de {
             D: Deserializer<'de>,
         {
             let input = Style::deserialize(deserializer)?;
-            let mut this = iced_style::container::Style::default();
+            let mut this = iced_style::container::Appearance::default();
 
             if let Some(text_color) = input.text_color {
                 this.text_color = Some(text_color.into());

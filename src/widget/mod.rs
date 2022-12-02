@@ -43,9 +43,9 @@ pub mod image_viewer;
 pub(crate) mod menu;
 pub mod pick_list;
 pub mod progress_bar;
-#[cfg(feature = "qr_code")]
-#[cfg_attr(docsrs, doc(cfg(feature = "qr_code")))]
-pub mod qr_code;
+// #[cfg(feature = "qr_code")]
+// #[cfg_attr(docsrs, doc(cfg(feature = "qr_code")))]
+// pub mod qr_code;
 pub mod radio;
 pub mod scrollable;
 pub mod slider;

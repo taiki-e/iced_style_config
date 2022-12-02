@@ -24,16 +24,17 @@ impl StyleSheet {
     ///   - a function that will be called when the [`iced::Slider`] is dragged.
     ///   It receives the new value of the [`iced::Slider`] and must produce a
     ///   `Message`.
-    pub fn new<'a, T, Message>(
+    pub fn new<'a, T, Message, Renderer: iced_native::Renderer>(
         &self,
         state: &'a mut iced_native::widget::slider::State,
         range: RangeInclusive<T>,
         value: T,
         on_change: impl Fn(T) -> Message + 'static,
-    ) -> iced_native::widget::Slider<'a, T, Message>
+    ) -> iced_native::widget::Slider<'a, T, Message, Renderer>
     where
         T: Copy + From<u8> + PartialOrd,
         Message: Clone,
+        Renderer::Theme: iced_style::slider::StyleSheet,
     {
         let mut this = iced_native::widget::Slider::new(state, range, value, on_change);
         if let Some(width) = self.width {
@@ -51,21 +52,21 @@ impl StyleSheet {
 
 #[derive(Debug, Clone, Copy)]
 pub(crate) struct Style {
-    active: iced_style::slider::Style,
-    hovered: iced_style::slider::Style,
-    dragging: iced_style::slider::Style,
+    active: iced_style::slider::Appearance,
+    hovered: iced_style::slider::Appearance,
+    dragging: iced_style::slider::Appearance,
 }
 
 impl iced_style::slider::StyleSheet for Style {
-    fn active(&self) -> iced_style::slider::Style {
+    fn active(&self) -> iced_style::slider::Appearance {
         self.active
     }
 
-    fn hovered(&self) -> iced_style::slider::Style {
+    fn hovered(&self) -> iced_style::slider::Appearance {
         self.hovered
     }
 
-    fn dragging(&self) -> iced_style::slider::Style {
+    fn dragging(&self) -> iced_style::slider::Appearance {
         self.dragging
     }
 }
@@ -92,7 +93,7 @@ mod de {
     }
 
     impl Inner {
-        fn overwrite(&self, style: &mut iced_style::slider::Style) {
+        fn overwrite(&self, style: &mut iced_style::slider::Appearance) {
             if let Some(rail_colors) = self.rail_colors {
                 style.rail_colors = (rail_colors.0.into(), rail_colors.1.into());
             }
@@ -148,7 +149,7 @@ mod de {
         {
             let input = Style::deserialize(deserializer)?;
 
-            let mut active = iced_style::slider::Style {
+            let mut active = iced_style::slider::Appearance {
                 rail_colors: ([0.6, 0.6, 0.6, 0.5].into(), iced_native::Color::WHITE),
                 handle: iced_native::widget::slider::Handle {
                     shape: iced_native::widget::slider::HandleShape::Rectangle {
@@ -162,7 +163,7 @@ mod de {
             };
             input.active.overwrite(&mut active);
 
-            let mut hovered = iced_style::slider::Style {
+            let mut hovered = iced_style::slider::Appearance {
                 handle: iced_native::widget::slider::Handle {
                     color: iced_native::Color::from_rgb(0.90, 0.90, 0.90),
                     ..active.handle
@@ -171,7 +172,7 @@ mod de {
             };
             input.hovered.overwrite(&mut hovered);
 
-            let mut dragging = iced_style::slider::Style {
+            let mut dragging = iced_style::slider::Appearance {
                 handle: iced_native::widget::slider::Handle {
                     color: iced_native::Color::from_rgb(0.85, 0.85, 0.85),
                     ..active.handle

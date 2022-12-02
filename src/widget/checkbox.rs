@@ -30,7 +30,10 @@ impl StyleSheet {
         is_checked: bool,
         label: impl Into<String>,
         f: impl Fn(bool) -> Message + 'static,
-    ) -> iced_native::widget::Checkbox<'static, Message, Renderer> {
+    ) -> iced_native::widget::Checkbox<'static, Message, Renderer>
+    where
+        Renderer::Theme: iced_style::checkbox::StyleSheet + iced_style::text::StyleSheet,
+    {
         let mut this = iced_native::widget::Checkbox::new(is_checked, label, f);
         if let Some(width) = self.width {
             this = this.width(width.into());
@@ -53,14 +56,14 @@ impl StyleSheet {
 
 #[derive(Debug, Clone, Copy)]
 pub(crate) struct Style {
-    active: iced_style::checkbox::Style,
-    active_checked: iced_style::checkbox::Style,
-    hovered: iced_style::checkbox::Style,
-    hovered_checked: iced_style::checkbox::Style,
+    active: iced_style::checkbox::Appearance,
+    active_checked: iced_style::checkbox::Appearance,
+    hovered: iced_style::checkbox::Appearance,
+    hovered_checked: iced_style::checkbox::Appearance,
 }
 
 impl iced_style::checkbox::StyleSheet for Style {
-    fn active(&self, is_checked: bool) -> iced_style::checkbox::Style {
+    fn active(&self, is_checked: bool) -> iced_style::checkbox::Appearance {
         if is_checked {
             self.active_checked
         } else {
@@ -68,7 +71,7 @@ impl iced_style::checkbox::StyleSheet for Style {
         }
     }
 
-    fn hovered(&self, is_checked: bool) -> iced_style::checkbox::Style {
+    fn hovered(&self, is_checked: bool) -> iced_style::checkbox::Appearance {
         if is_checked {
             self.hovered_checked
         } else {
@@ -110,7 +113,7 @@ mod de {
     }
 
     impl Inner2 {
-        fn overwrite(&self, style: &mut iced_style::checkbox::Style) {
+        fn overwrite(&self, style: &mut iced_style::checkbox::Appearance) {
             if let Some(background) = self.background {
                 style.background = background.into();
             }
@@ -139,7 +142,7 @@ mod de {
         {
             let input = Style::deserialize(deserializer)?;
 
-            let mut active = iced_style::checkbox::Style {
+            let mut active = iced_style::checkbox::Appearance {
                 background: iced_native::Background::Color(iced_native::Color::from_rgb(
                     0.95, 0.95, 0.95,
                 )),
@@ -153,13 +156,13 @@ mod de {
             let mut active_checked = active;
             input.active.checked.overwrite(&mut active_checked);
 
-            let mut hovered = iced_style::checkbox::Style {
+            let mut hovered = iced_style::checkbox::Appearance {
                 background: iced_native::Background::Color(iced_native::Color::from_rgb(
                     0.90, 0.90, 0.90,
                 )),
                 ..active
             };
-            let mut hovered_checked = iced_style::checkbox::Style {
+            let mut hovered_checked = iced_style::checkbox::Appearance {
                 background: iced_native::Background::Color(iced_native::Color::from_rgb(
                     0.90, 0.90, 0.90,
                 )),

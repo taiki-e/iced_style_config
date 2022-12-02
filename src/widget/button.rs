@@ -25,6 +25,7 @@ impl StyleSheet {
     ) -> iced_native::widget::Button<'a, Message, Renderer>
     where
         Message: Clone,
+        Renderer::Theme: iced_style::button::StyleSheet,
     {
         let mut this = iced_native::widget::Button::new(state, content);
         if let Some(width) = self.width {
@@ -45,26 +46,26 @@ impl StyleSheet {
 
 #[derive(Debug, Clone, Copy)]
 pub(crate) struct Style {
-    active: iced_style::button::Style,
-    hovered: iced_style::button::Style,
-    pressed: iced_style::button::Style,
-    disabled: iced_style::button::Style,
+    active: iced_style::button::Appearance,
+    hovered: iced_style::button::Appearance,
+    pressed: iced_style::button::Appearance,
+    disabled: iced_style::button::Appearance,
 }
 
 impl iced_style::button::StyleSheet for Style {
-    fn active(&self) -> iced_style::button::Style {
+    fn active(&self) -> iced_style::button::Appearance {
         self.active
     }
 
-    fn hovered(&self) -> iced_style::button::Style {
+    fn hovered(&self) -> iced_style::button::Appearance {
         self.hovered
     }
 
-    fn pressed(&self) -> iced_style::button::Style {
+    fn pressed(&self) -> iced_style::button::Appearance {
         self.pressed
     }
 
-    fn disabled(&self) -> iced_style::button::Style {
+    fn disabled(&self) -> iced_style::button::Appearance {
         self.disabled
     }
 }
@@ -97,7 +98,7 @@ mod de {
     }
 
     impl Inner {
-        fn overwrite(&self, style: &mut iced_style::button::Style) {
+        fn overwrite(&self, style: &mut iced_style::button::Appearance) {
             if let Some(shadow_offset) = self.shadow_offset {
                 style.shadow_offset = shadow_offset.into();
             }
@@ -126,22 +127,22 @@ mod de {
         {
             let input = Style::deserialize(deserializer)?;
 
-            let mut active = iced_style::button::Style::default();
+            let mut active = iced_style::button::Appearance::default();
             input.active.overwrite(&mut active);
 
-            let mut hovered = iced_style::button::Style {
+            let mut hovered = iced_style::button::Appearance {
                 shadow_offset: active.shadow_offset + iced_native::Vector::new(0.0, 1.0),
                 ..active
             };
             input.hovered.overwrite(&mut hovered);
 
-            let mut pressed = iced_style::button::Style {
+            let mut pressed = iced_style::button::Appearance {
                 shadow_offset: iced_native::Vector::default(),
                 ..active
             };
             input.pressed.overwrite(&mut pressed);
 
-            let mut disabled = iced_style::button::Style {
+            let mut disabled = iced_style::button::Appearance {
                 shadow_offset: iced_native::Vector::default(),
                 background: active.background.map(|background| match background {
                     iced_native::Background::Color(color) => {

@@ -31,10 +31,11 @@ impl StyleSheet {
         label: impl Into<String>,
         selected: Option<V>,
         f: impl Fn(V) -> Message + 'static,
-    ) -> iced_native::widget::Radio<'static, Message, Renderer>
+    ) -> iced_native::widget::Radio<Message, Renderer>
     where
         V: Eq + Copy,
         Message: Clone,
+        Renderer::Theme: iced_style::radio::StyleSheet,
     {
         let mut this = iced_native::widget::Radio::new(value, label, selected, f);
         if let Some(width) = self.width {
@@ -58,16 +59,16 @@ impl StyleSheet {
 
 #[derive(Debug, Clone, Copy)]
 pub(crate) struct Style {
-    active: iced_style::radio::Style,
-    hovered: iced_style::radio::Style,
+    active: iced_style::radio::Appearance,
+    hovered: iced_style::radio::Appearance,
 }
 
 impl iced_style::radio::StyleSheet for Style {
-    fn active(&self) -> iced_style::radio::Style {
+    fn active(&self) -> iced_style::radio::Appearance {
         self.active
     }
 
-    fn hovered(&self) -> iced_style::radio::Style {
+    fn hovered(&self) -> iced_style::radio::Appearance {
         self.hovered
     }
 }
@@ -95,7 +96,7 @@ mod de {
     }
 
     impl Inner {
-        fn overwrite(&self, style: &mut iced_style::radio::Style) {
+        fn overwrite(&self, style: &mut iced_style::radio::Appearance) {
             if let Some(background) = self.background {
                 style.background = background.into();
             }
@@ -121,7 +122,7 @@ mod de {
         {
             let input = Style::deserialize(deserializer)?;
 
-            let mut active = iced_style::radio::Style {
+            let mut active = iced_style::radio::Appearance {
                 background: iced_native::Background::Color(iced_native::Color::from_rgb(
                     0.95, 0.95, 0.95,
                 )),
@@ -132,7 +133,7 @@ mod de {
             };
             input.active.overwrite(&mut active);
 
-            let mut hovered = iced_style::radio::Style {
+            let mut hovered = iced_style::radio::Appearance {
                 background: iced_native::Background::Color(iced_native::Color::from_rgb(
                     0.90, 0.90, 0.90,
                 )),

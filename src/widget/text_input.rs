@@ -32,6 +32,7 @@ impl StyleSheet {
     ) -> iced_native::widget::TextInput<'a, Message, Renderer>
     where
         Message: Clone,
+        Renderer::Theme: iced_style::text_input::StyleSheet,
     {
         let mut this = iced_native::widget::TextInput::new(state, placeholder, value, on_change);
         if let Some(width) = self.width {
@@ -52,24 +53,24 @@ impl StyleSheet {
 
 #[derive(Debug, Clone, Copy)]
 pub(crate) struct Style {
-    active: iced_style::text_input::Style,
-    focused: iced_style::text_input::Style,
-    hovered: iced_style::text_input::Style,
+    active: iced_style::text_input::Appearance,
+    focused: iced_style::text_input::Appearance,
+    hovered: iced_style::text_input::Appearance,
     placeholder_color: iced_native::Color,
     value_color: iced_native::Color,
     selection_color: iced_native::Color,
 }
 
 impl iced_style::text_input::StyleSheet for Style {
-    fn active(&self) -> iced_style::text_input::Style {
+    fn active(&self) -> iced_style::text_input::Appearance {
         self.active
     }
 
-    fn focused(&self) -> iced_style::text_input::Style {
+    fn focused(&self) -> iced_style::text_input::Appearance {
         self.focused
     }
 
-    fn hovered(&self) -> iced_style::text_input::Style {
+    fn hovered(&self) -> iced_style::text_input::Appearance {
         self.hovered
     }
 
@@ -113,7 +114,7 @@ mod de {
     }
 
     impl Inner {
-        fn overwrite(&self, style: &mut iced_style::text_input::Style) {
+        fn overwrite(&self, style: &mut iced_style::text_input::Appearance) {
             if let Some(background) = self.background {
                 style.background = background.into();
             }
@@ -136,7 +137,7 @@ mod de {
         {
             let input = Style::deserialize(deserializer)?;
 
-            let mut active = iced_style::text_input::Style {
+            let mut active = iced_style::text_input::Appearance {
                 background: iced_native::Background::Color(iced_native::Color::WHITE),
                 border_radius: 5.0,
                 border_width: 1.0,
@@ -144,7 +145,7 @@ mod de {
             };
             input.active.overwrite(&mut active);
 
-            let mut focused = iced_style::text_input::Style {
+            let mut focused = iced_style::text_input::Appearance {
                 border_color: iced_native::Color::from_rgb(0.5, 0.5, 0.5),
                 ..active
             };

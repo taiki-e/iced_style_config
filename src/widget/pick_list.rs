@@ -29,6 +29,7 @@ impl StyleSheet {
     where
         T: ToString + Eq,
         [T]: ToOwned<Owned = Vec<T>>,
+        Renderer::Theme: iced_style::pick_list::StyleSheet,
     {
         let mut this = iced_native::widget::PickList::new(state, options, selected, on_selected);
         if let Some(padding) = self.padding {
@@ -49,21 +50,17 @@ impl StyleSheet {
 
 #[derive(Debug, Clone, Copy)]
 pub(crate) struct Style {
-    menu: iced_style::menu::Style,
-    active: iced_style::pick_list::Style,
-    hovered: iced_style::pick_list::Style,
+    menu: iced_style::menu::Appearance,
+    active: iced_style::pick_list::Appearance,
+    hovered: iced_style::pick_list::Appearance,
 }
 
 impl iced_style::pick_list::StyleSheet for Style {
-    fn menu(&self) -> iced_style::menu::Style {
-        self.menu
-    }
-
-    fn active(&self) -> iced_style::pick_list::Style {
+    fn active(&self) -> iced_style::pick_list::Appearance {
         self.active
     }
 
-    fn hovered(&self) -> iced_style::pick_list::Style {
+    fn hovered(&self) -> iced_style::pick_list::Appearance {
         self.hovered
     }
 }
@@ -95,7 +92,7 @@ mod de {
     }
 
     impl Inner {
-        fn overwrite(&self, style: &mut iced_style::pick_list::Style) {
+        fn overwrite(&self, style: &mut iced_style::pick_list::Appearance) {
             if let Some(text_color) = self.text_color {
                 style.text_color = text_color.into();
             }
@@ -129,7 +126,7 @@ mod de {
 
             let menu = input.menu.into();
 
-            let mut active = iced_style::pick_list::Style {
+            let mut active = iced_style::pick_list::Appearance {
                 text_color: iced_native::Color::BLACK,
                 placeholder_color: [0.4, 0.4, 0.4].into(),
                 background: iced_native::Background::Color([0.87, 0.87, 0.87].into()),
@@ -140,8 +137,10 @@ mod de {
             };
             input.active.overwrite(&mut active);
 
-            let mut hovered =
-                iced_style::pick_list::Style { border_color: iced_native::Color::BLACK, ..active };
+            let mut hovered = iced_style::pick_list::Appearance {
+                border_color: iced_native::Color::BLACK,
+                ..active
+            };
             input.hovered.overwrite(&mut hovered);
 
             Ok(Self { menu, active, hovered })

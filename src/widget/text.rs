@@ -19,7 +19,10 @@ impl StyleSheet {
     pub fn new<Renderer: iced_native::text::Renderer>(
         &self,
         label: impl Into<String>,
-    ) -> iced_native::widget::Text<Renderer> {
+    ) -> iced_native::widget::Text<Renderer>
+    where
+        Renderer::Theme: iced_style::text::StyleSheet,
+    {
         let mut this = iced_native::widget::Text::new(label);
         if let Some(size) = self.size {
             this = this.size(size);

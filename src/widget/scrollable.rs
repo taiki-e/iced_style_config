@@ -27,7 +27,10 @@ impl StyleSheet {
     pub fn new<'a, Message, Renderer: iced_native::Renderer>(
         &self,
         state: &'a mut iced_native::widget::scrollable::State,
-    ) -> iced_native::widget::Scrollable<'a, Message, Renderer> {
+    ) -> iced_native::widget::Scrollable<'a, Message, Renderer>
+    where
+        Renderer::Theme: iced_style::scrollable::StyleSheet,
+    {
         let mut this = iced_native::widget::Scrollable::new(state);
         if let Some(spacing) = self.spacing {
             this = this.spacing(spacing);
